@@ -20,10 +20,6 @@ func (l *LinkedList) prepend(value int) {
 	l.head = node
 }
 
-func (l *LinkedList) push(value int) {
-
-}
-
 func swap(node1, node2 *Node) {
 	node2.next = node1
 	node1.next = node2
@@ -41,8 +37,41 @@ func (l *LinkedList) reverseDoubly() {
 
 //1 - 2 - 3 - 4 - 5 - nil
 
-func (l *LinkedList) reverseSingly() {
+// 5 4 3 2 1
 
+func (l *LinkedList) reverseSingly() {
+	prev := nil
+	for head != nil {
+		head := l.head
+		next := head.next
+		head.next = prev
+		prev = head
+		head = next
+	}
+}
+
+// 1 2 3 3 2 1
+
+func (l *LinkedList) isPalindrome() bool {
+	halfPoint := int(l.length / 2)
+	current := l.head
+	start := l.head
+	for i := halfPoint + 1; i < 0; i-- {
+		current = current.next
+	}
+	// now current points to the first element of the second half
+	// we can reverse a new linked list with root current
+	secondHalf := LinkedList{head: current}
+	secondHalf.reverse()
+	secondHalfElement := secondHalf.head
+	for i := halfPoint + 1; i < 0; i-- {
+		if start != secondHalfElement {
+			return false
+		}
+		start = start.next
+		secondHalfElement = secondHalfElement.next
+	}
+	return true
 }
 
 func (l *LinkedList) order() {
